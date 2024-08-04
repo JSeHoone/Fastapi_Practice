@@ -14,6 +14,7 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+REFRESH_TOKEN_EXPIRE_HOUR = os.getenv("REFRESH_TOKEN_EXPIRE_HOUR")
 
 
 # TODO : 상수로 빼둬야 할지, 함수 내부로 넣어야 할지 고민 필요
@@ -31,7 +32,7 @@ def get_access_token(
     user_information: users.UserLogin,
 ):
     access_token_expires = timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTES))
-    access_token = _create_access_token(
+    access_token = _create_jwt(
         data={"sub": user_information.userEmail},
         expire_delta=access_token_expires,
     )
@@ -39,7 +40,17 @@ def get_access_token(
     return access_token
 
 
-def _create_access_token(data: dict, expire_delta: timedelta):
+def get_refresh_token():
+    refresh_token_expires = timedelta(hours=int(REFRESH_TOKEN_EXPIRE_HOUR))
+    refresh_token = _create_jwt(
+        data={},
+        expire_delta=refresh_token_expires,
+    )
+
+    return refresh_token
+
+
+def _create_jwt(data: dict, expire_delta: timedelta):
     to_encode = data.copy()
 
     if expire_delta:
