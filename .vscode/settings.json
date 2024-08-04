@@ -1,0 +1,28 @@
+{
+    // Docstring
+    "autoDocstring.docstringFormat": "numpy",
+    
+    // Formatter `black`
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "black-formatter.args": [
+        "--line-length=100"
+    ],
+
+    // Lint `pylint`
+    "pylint.args": [
+        "--max-line-length=100"
+    ],
+    "python.linting.pylintArgs": [
+        "--disable=E0213"
+    ],
+
+    // Python `Remove unused imports`
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.unusedImports": "explicit",
+        },
+        "editor.formatOnSave": true
+    }
+}
